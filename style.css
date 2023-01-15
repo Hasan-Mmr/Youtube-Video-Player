@@ -1,0 +1,119 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    font-family: Verdana, Geneva, sans-serif;
+}
+
+.video-container {
+    max-width: 1000px;
+    width: 90%;
+    margin-inline: auto;
+    margin-top: 2rem;
+    position: relative;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+}
+
+.video-container.theater {
+    max-width: initial;
+    width: 100%;
+    max-height: 80vh;
+}
+
+.video-container::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    right: 0;
+    bottom: 0;
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    opacity: 0;
+    transition: 150ms opacity ease-in-out;
+    pointer-events: none;
+
+}
+.video-container:hover::after,
+.video-container.paused::after,
+.video-container:focus-within::after {
+    opacity: 1;
+}
+
+.video {
+    width: 100%;
+}
+
+.video-controls-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    padding: .5rem;
+    /* height: 60px; */
+    /* border: 3px solid red; */
+    opacity: 0;
+    transition: 150ms opacity ease-in-out;
+    z-index: 9;
+}
+
+.video-container:hover .video-controls-container,
+.video-container:focus-within .video-controls-container,
+.video-container.paused .video-controls-container {
+    opacity: 1;
+}
+
+.controls {
+    display: flex;
+    gap: .25rem;
+    align-items: center;
+    padding: .25rem .5rem;
+    color: #fff;
+}
+
+.controls button {
+    width: 35px;
+    height: 35px;
+    background: none;
+    outline: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    opacity: .8;
+}
+
+.controls button:hover {
+    opacity: 1;
+}
+
+.video-container.paused .pause-icon {
+    display: none;
+}
+
+.video-container:not(.paused) .play-icon {
+    display: none;
+}
+
+.video-container.theater .tall {
+    display: none;
+}
+
+.video-container:not(.theater ) .wide {
+    display: none;
+}
+
+.video-container.full-screen .open {
+    display: none;
+}
+
+.video-container:not(.full-screen ) .close {
+    display: none;
+}
