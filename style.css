@@ -77,6 +77,13 @@ html {
     opacity: 1;
 }
 
+/* subtitle */
+.video-container.subtitle .captions-btn {
+    border-bottom: 3px solid red;
+}
+
+
+/* control bar */
 .controls {
     display: flex;
     gap: .5rem;
@@ -89,7 +96,6 @@ html {
     width: 35px;
     height: 35px;
     background: none;
-    /* outline: none; */
     border: none;
     color: inherit;
     cursor: pointer;

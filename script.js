@@ -1,6 +1,8 @@
 const videoContainer = document.querySelector('.video-container');
 const video = document.querySelector('.video');
 
+const captionBtn = document.querySelector('.captions-btn');
+
 const playPauseBtn = document.querySelector('.play-pause-btn');
 const miniPlayerBtn = document.querySelector('.mini-player-btn');
 const theaterBtn = document.querySelector('.theater-btn');
@@ -60,7 +62,22 @@ document.addEventListener('keydown', e => {
 })
 
 
-//pal pause
+// subtitle
+
+const subtitle = video.textTracks[0];
+subtitle.mode = 'hidden';
+
+captionBtn.addEventListener('click', toggleSubtitle)
+
+function toggleSubtitle() {
+    const isShowing = subtitle.mode === 'showing';
+    subtitle.mode = 
+    isShowing ? 'hidden' : 'showing';
+
+    videoContainer.classList.toggle('subtitle', !isShowing);
+}
+
+//play pause
 video.addEventListener('click', () => {
     togglePlayPause();
 })
