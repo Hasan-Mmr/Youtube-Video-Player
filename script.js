@@ -16,6 +16,9 @@ function togglePlayPause() {
 
 document.addEventListener('keydown', e => {
     const key = e.key.toLowerCase();
+
+    console.log(key)
+
     switch (key) {
         case 'k':
             togglePlayPause();
@@ -24,9 +27,15 @@ document.addEventListener('keydown', e => {
         case 'i':
             togglePictureInPicture();
             break;
+
         case 't':
             toggleTheaterMode();
             break;
+
+        case 'f':
+            toggleFullsreen();
+            break;
+            
         default:
             break;
     }
@@ -55,3 +64,21 @@ theaterBtn.addEventListener('click', toggleTheaterMode)
 function toggleTheaterMode() {
     videoContainer.classList.toggle('theater');
 }
+
+// fllscreen mode
+fullScreenBtn.addEventListener('click', toggleFullsreen);
+function toggleFullsreen () {
+    if ( document.fullscreenElement === null ) {
+        videoContainer.requestFullscreen();
+    } else {
+        document.exitFullscreen();
+    }
+}
+
+document.addEventListener('fullscreenchange', () => {
+    if ( document.fullscreenElement ) {
+        videoContainer.classList.add('full-screen');
+    } else {
+        videoContainer.classList.remove('full-screen')
+    }
+})

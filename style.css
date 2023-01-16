@@ -22,10 +22,22 @@ html {
     justify-content: center;
 }
 
-.video-container.theater {
+.video {
+    width: 100%;
+}
+
+.video-container.theater,
+.video-container.full-screen {
     max-width: initial;
     width: 100%;
+}
+
+.video-container.theater {
     max-height: 80vh;
+}
+
+.video-container.full-screen {
+    max-height: 100vh;
 }
 
 .video-container::after {
@@ -47,10 +59,6 @@ html {
     opacity: 1;
 }
 
-.video {
-    width: 100%;
-}
-
 .video-controls-container {
     position: absolute;
     left: 0;
@@ -60,7 +68,7 @@ html {
     padding: .5rem;
     opacity: 0;
     transition: 150ms opacity ease-in-out;
-    z-index: 9;
+    z-index: 99;
 }
 
 .video-container:hover .video-controls-container,
@@ -81,7 +89,7 @@ html {
     width: 35px;
     height: 35px;
     background: none;
-    outline: none;
+    /* outline: none; */
     border: none;
     color: inherit;
     cursor: pointer;
@@ -121,7 +129,6 @@ html {
 .volume-container {
     display: flex;
     align-items: center;
-    /* gap: .5rem; */
 }
 
 .volume-low-icon,
@@ -147,7 +154,8 @@ html {
     transition: 150ms width ease-in-out, 150ms transform ease-in-out;;
 }
 
-.volume-container:hover .volume-slider {    
+.volume-container:hover .volume-slider,
+.volume-container:focus-within .volume-slider {    
     transform: scaleX(1);
     width: 130px;
 }
