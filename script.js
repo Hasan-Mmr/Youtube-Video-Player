@@ -6,6 +6,12 @@ const miniPlayerBtn = document.querySelector('.mini-player-btn');
 const theaterBtn = document.querySelector('.theater-btn');
 const fullScreenBtn = document.querySelector('.full-screen-btn');
 
+const volumeSlider = document.querySelector('.volume-slider');
+const volumeContainer = document.querySelector('.volume-container');
+const muteBtn = document.querySelector('.mute-btn');
+
+const currentTimes = document.querySelector('.current-time');
+const totalTimes = document.querySelector('.total-time');
 
 // play and pause
 playPauseBtn.addEventListener('click', togglePlayPause);
@@ -16,9 +22,7 @@ function togglePlayPause() {
 
 document.addEventListener('keydown', e => {
     const key = e.key.toLowerCase();
-
-    console.log(key)
-
+    console.log(key);
     switch (key) {
         case 'k':
             togglePlayPause();
@@ -35,12 +39,28 @@ document.addEventListener('keydown', e => {
         case 'f':
             toggleFullsreen();
             break;
-            
-        default:
+          
+        case 'm':
+            toggleMute();
             break;
+        
+        case 'arrowright':
+        case 'l':
+            forwardBackward(10);
+            break;
+        
+        case 'arrowleft':
+        case 'j':
+            forwardBackward(-10);
+            break;
+
+        default:
+        break;
     }
 })
 
+
+//pal pause
 video.addEventListener('click', () => {
     togglePlayPause();
 })
@@ -82,3 +102,62 @@ document.addEventListener('fullscreenchange', () => {
         videoContainer.classList.remove('full-screen')
     }
 })
+
+// volume control
+
+volumeSlider.addEventListener('input', changeVolume);
+function changeVolume(e) {
+    const val = e.target.value;
+    video.volume = val;
+    video.muted = e.target.value === 0;
+}
+
+muteBtn.addEventListener('click', toggleMute);
+function toggleMute() {
+    video.muted = !video.muted;
+}
+
+video.addEventListener('volumechange', showVolumeIcon);
+function showVolumeIcon()  {
+    const vol = video.volume;
+    let volLevel;
+
+    if ( video.muted || vol === 0 ) {
+        volLevel =  'muted';
+    } else if ( vol > 0.5 ) {
+        volLevel =  'high';
+    } else {
+        volLevel =  'low';
+    }
+    volumeContainer.dataset.volume = volLevel;
+}
+
+
+// time update
+
+video.addEventListener('loadeddata', showTotalTime);
+function showTotalTime() {
+    totalTimes.textContent = formatTime(video.duration);
+}
+
+video.addEventListener('timeupdate', showCureentTime);
+function showCureentTime() {
+    currentTimes.textContent = formatTime(video.currentTime);
+}
+
+const timeFormatter = new Intl.NumberFormat(undefined, {minimumIntegerDigits: 2});
+
+function formatTime(time) {
+    const seconds = Math.floor(time % 60);
+    const minutes = Math.floor((time  % 3600) / 60);
+    const hours = Math.floor(time / 3600);
+    if ( hours == 0  ) {
+        return `${timeFormatter.format(minutes)}:${timeFormatter.format(seconds)}`;
+    } else {
+        return `${timeFormatter.format(hours)}:${timeFormatter.format(minutes)}:${timeFormatter.format(seconds)}`;
+    }
+}
+
+function forwardBackward(duraion) {
+    video.currentTime += duraion;
+}

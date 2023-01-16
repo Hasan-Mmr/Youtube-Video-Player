@@ -137,15 +137,15 @@ html {
     display: none;
 }
 
-.volume-container.muted  .volume-muted-icon,
-.volume-container.high  .volume-high-icon,
-.volume-container.low  .volume-low-icon {
+.volume-container[data-volume="muted"]  .volume-muted-icon,
+.volume-container[data-volume="high"]  .volume-high-icon,
+.volume-container[data-volume="low"]  .volume-low-icon {
     display: block;
 }
 
-.volume-high-icon {
+/* .volume-high-icon {
     display: block;
-}
+} */
 
 .volume-slider {    
     transform-origin: left;
