@@ -59,16 +59,16 @@ html {
     opacity: 1;
 }
 
+/* controls container */
 .video-controls-container {
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
-    width: 100%;
     padding: .5rem;
     opacity: 0;
     transition: 150ms opacity ease-in-out;
-    z-index: 99;
+    z-index: 9;
 }
 
 .video-container:hover .video-controls-container,
@@ -77,11 +77,77 @@ html {
     opacity: 1;
 }
 
-/* subtitle */
-.video-container.subtitle .captions-btn {
-    border-bottom: 3px solid red;
+/* progress bar */
+.progress {
+    position: relative;
+    width: 97%;
+    margin: 0 auto;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10;
 }
 
+.progress-bar {
+    width: 100%;
+    height: 5px;
+    border-radius: 1.5px;
+    overflow: hidden;
+    background-color: rgb(128, 128, 128);
+    position: relative;
+    transition: height 150ms ease-in-out;
+}
+
+.progress:hover .progress-bar {
+    height: 7px;
+}
+
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    height: 100%;
+    right: calc(100% - var(--videoProgress) * 100%);
+    bottom: 0;
+    background-color: red;
+}
+
+.progress-bar::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    left: 0;
+    bottom: 0;
+    right: calc(100% - var(--hoverPosition) * 100%);
+    background-color: rgb(185, 185, 185);
+    opacity: 0;
+    transition: opacity 150ms ease-in-out;
+}
+
+.progress:hover .progress-bar::before {
+    opacity: 1;
+}
+
+.progress-current {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: red;
+    transform: translateX(-50%) scale(.75);
+    position: absolute;
+    left:  calc(var(--videoProgress ) * 100%);
+    opacity: 0;
+    transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+}
+
+.progress:hover .progress-current {
+    opacity: 1;
+}
+
+.progress-current:hover {
+    transform: translateX(-50%) scale(1);
+}
 
 /* control bar */
 .controls {
@@ -149,10 +215,6 @@ html {
     display: block;
 }
 
-/* .volume-high-icon {
-    display: block;
-} */
-
 .volume-slider {    
     transform-origin: left;
     transform: scaleX(0);
@@ -173,4 +235,10 @@ html {
     gap: .5rem;
     padding-inline: .25rem;
     flex: 1;
+    pointer-events: none;
+}
+
+/* subtitle */
+.video-container.subtitle .captions-btn {
+    border-bottom: 3px solid red;
 }
