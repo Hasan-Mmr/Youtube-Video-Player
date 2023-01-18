@@ -99,7 +99,8 @@ html {
     transition: height 150ms ease-in-out;
 }
 
-.progress:hover .progress-bar {
+.progress:hover .progress-bar,
+.progress.isMouseDown .progress-bar {
     height: 7px;
 }
 
@@ -125,7 +126,8 @@ html {
     transition: opacity 150ms ease-in-out;
 }
 
-.progress:hover .progress-bar::before {
+.progress:hover .progress-bar::before,
+.progress.isMouseDown .progress-bar::before {
     opacity: 1;
 }
 
@@ -141,7 +143,8 @@ html {
     transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
 }
 
-.progress:hover .progress-current {
+.progress:hover .progress-current,
+.progress.isMouseDown .progress-current {
     opacity: 1;
 }
 

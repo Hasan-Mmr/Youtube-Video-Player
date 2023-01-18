@@ -74,85 +74,42 @@ document.addEventListener('keydown', e => {
 
 // progress
 
-progress.addEventListener('mousedown', handleClick);
-progress.addEventListener('mousemove', handleMouseDown);
-document.addEventListener('mouseup', e => {
-    if ( isMouseDown) handleClick(e);
-})
-document.addEventListener('mousemove', e => {
-    if ( isMouseDown) handleMouseDown(e);
-})
-
 let isMouseDown = false;
 let isPaused = false;
-function handleClick(e) {
-    const rect = progress.getBoundingClientRect();
-    const currentX = e.pageX - rect.left;
-    const ratio =  currentX / rect.width;
-    isMouseDown = (e.buttons & 1) === 1;
+progress.addEventListener('mousedown', e => {
+    isMouseDown = true;
+    isPaused = video.paused;
+    video.pause();
+    handleMouseMove(e);
+})
 
-    if ( isMouseDown ) {
-        isPaused = video.paused;
-        video.pause();
-    } else {
+document.addEventListener('mouseup', e => {
+    if (isMouseDown) {
+        const rect = progress.getBoundingClientRect();
+        const currentX = e.pageX - rect.left;
+        const ratio =  currentX / rect.width;
         video.currentTime = video.duration * ratio;
-        if( !isPaused ) video.play();
+        if (!isPaused) video.play();
     }
-    handleMouseDown(e);
-}
+    isMouseDown = false;
+})
 
-function handleMouseDown(e) {
+progress.addEventListener('mousemove', handleMouseMove);
+document.addEventListener('mousemove', e => {
+    if ( isMouseDown ) handleMouseMove(e);
+})
+
+function handleMouseMove(e) {
+    e.preventDefault();
     const rect = progress.getBoundingClientRect();
     const currentX = e.pageX - rect.left;
     const ratio =  currentX / rect.width;
-    
     progress.style.setProperty(`--hoverPosition`, ratio);
-
     if ( isMouseDown ) {
+        progress.classList.toggle('isMouseDown', isMouseDown)
         video.currentTime = video.duration * ratio;
     }
 }
-
-
-
-
-// document.addEventListener('mousemove', showPosition);
-// function showPosition(e) {    
-//     if ( e.target.closest('.progress') !== null) {
-//         progressBar.style.setProperty(`--hoverPosition`, `${100 - calculateRatio(e)}%`);
-//     } else {
-//         progressBar.style.setProperty(`--hoverPosition`, `${100}%`);
-//     }
-
-//     if ( e.target.closest('.progress-current') !== null && isKeyDown) {
-//         const slideIndicator = video.duration * (calculateRatio(e) / 100);
-//         console.log(slideIndicator)
-//         video.currentTime = slideIndicator;
-//     }
-// }
-
-// function calculateRatio(e) {
-//     const progressRect = progress.getBoundingClientRect();
-//     const pointerPos = e.pageX;
-//     const offset = pointerPos - progressRect.left;
-//     const ratio = (offset / progressRect.width) * 100;
-//     return ratio;
-// }
-
-// let isKeyDown = undefined;
-// document.addEventListener('mousedown', () => {
-//     isKeyDown = true;
-// })
-// document.addEventListener('mouseup', () => {
-//     isKeyDown = false;
-// })
-
-// document.addEventListener('mousedown', moveProgressIndicator);
-// function moveProgressIndicator(e) {
-//     if ( e.target.closest('.progress-current') !== null ) {
-//         progressIndicator.style.setProperty(`--currenProgress`, `${100 - calculateRatio(e)}%`)
-//     }
-// }
 
 //play pause
 video.addEventListener('click', () => {
@@ -166,6 +123,7 @@ video.addEventListener('play', () => {
 video.addEventListener('pause', () => {
     videoContainer.classList.add('paused');
 })
+
 
 // volume control
 volumeSlider.addEventListener('input', changeVolume);
