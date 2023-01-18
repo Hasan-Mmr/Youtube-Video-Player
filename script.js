@@ -20,6 +20,9 @@ const speedBtn = document.querySelector('.speed-btn');
 const progress = document.querySelector('.progress')
 const progressBar = document.querySelector('.progress-bar');
 const progressIndicator = document.querySelector('.progress-current');
+const previewVideo = document.querySelector('.preview-video');
+const previewDuratio = document.querySelector('.preview-duration');
+
 
 // play and pause
 playPauseBtn.addEventListener('click', togglePlayPause);
@@ -83,15 +86,11 @@ progress.addEventListener('mousedown', e => {
     handleMouseMove(e);
 })
 
-document.addEventListener('mouseup', e => {
+document.addEventListener('mouseup', e => {    
     if (isMouseDown) {
-        const rect = progress.getBoundingClientRect();
-        const currentX = e.pageX - rect.left;
-        const ratio =  currentX / rect.width;
-        video.currentTime = video.duration * ratio;
+        isMouseDown = false;
         if (!isPaused) video.play();
     }
-    isMouseDown = false;
 })
 
 progress.addEventListener('mousemove', handleMouseMove);
@@ -105,8 +104,10 @@ function handleMouseMove(e) {
     const currentX = e.pageX - rect.left;
     const ratio =  currentX / rect.width;
     progress.style.setProperty(`--hoverPosition`, ratio);
+    previewVideo.currentTime = ratio * previewVideo.duration;
+    previewDuratio.textContent = formatTime(previewVideo.currentTime);
+    videoContainer.classList.toggle('isMouseDown', isMouseDown);
     if ( isMouseDown ) {
-        progress.classList.toggle('isMouseDown', isMouseDown)
         video.currentTime = video.duration * ratio;
     }
 }

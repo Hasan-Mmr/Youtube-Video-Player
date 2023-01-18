@@ -80,7 +80,8 @@ html {
 /* progress bar */
 .progress {
     position: relative;
-    width: 97%;
+    width: 100%;
+    padding-inline: .5rem;
     margin: 0 auto;
     height: 30px;
     display: flex;
@@ -88,6 +89,36 @@ html {
     cursor: pointer;
     z-index: 10;
 }
+
+.preview {
+    position: absolute;
+    width: 200px;
+    transform: translateX(-50%);
+    left: clamp(100px, calc(var(--hoverPosition, 0.01) *100%), calc(100% - 100px));
+    bottom: calc(100% + .5rem);
+    pointer-events: none;
+    opacity: 0;
+    transition: 150ms opacity ease-in-out;
+}
+
+.progress:hover .preview,
+.video-container.isMouseDown .preview {
+    opacity: 1;
+}
+
+.preview-video {
+    width: 100%;
+    object-fit: contain;
+    border: 2px solid #fffff0;
+    border-radius: 3px;
+}
+
+.preview-duration {
+    text-align: center;
+    color: #fffff0;
+    padding-top: .5rem;
+}
+
 
 .progress-bar {
     width: 100%;
@@ -100,7 +131,7 @@ html {
 }
 
 .progress:hover .progress-bar,
-.progress.isMouseDown .progress-bar {
+.video-container.isMouseDown .progress-bar {
     height: 7px;
 }
 
@@ -127,7 +158,7 @@ html {
 }
 
 .progress:hover .progress-bar::before,
-.progress.isMouseDown .progress-bar::before {
+.video-container.isMouseDown .progress-bar::before {
     opacity: 1;
 }
 
@@ -144,7 +175,7 @@ html {
 }
 
 .progress:hover .progress-current,
-.progress.isMouseDown .progress-current {
+.video-container.isMouseDown .progress-current {
     opacity: 1;
 }
 
